@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,6 +18,8 @@ public class CheatActivity extends AppCompatActivity {
             "com.penciltrick.android.qeoquiz.answer_is_true";
     public static final String EXTRA_ANSWER_SHOWN =
             "com.penciltrick.android.geoquiz.answer_shown";
+    private static final String TAG = "CheatActivity";
+    private static final String KEY_INDEX = "index";
 
     private boolean mAnswerIsTrue;
     private TextView mAnswerTextView;
@@ -44,6 +47,7 @@ public class CheatActivity extends AppCompatActivity {
                 } else {
                     mAnswerTextView.setText(R.string.false_button);
                 }
+                setAnswerShownResult(true);
             }
         });
     }
@@ -56,5 +60,12 @@ public class CheatActivity extends AppCompatActivity {
 
     public static boolean wasAnswerShown(Intent result) {
         return result.getBooleanExtra(EXTRA_ANSWER_SHOWN, false);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle saveInstanceState) {
+        super.onSaveInstanceState(saveInstanceState);
+        Log.i(TAG, "onSaveInstanceState(Bundle) called");
+        saveInstanceState.putBoolean(KEY_INDEX, mAnswerIsTrue);
     }
 }
