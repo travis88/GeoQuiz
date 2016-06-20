@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class CheatActivity extends AppCompatActivity {
 
@@ -35,21 +36,30 @@ public class CheatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cheat);
-        mAnswerIsTrue = getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false);
 
+        mAnswerIsTrue = getIntent().getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false);
         mAnswerTextView = (TextView) findViewById(R.id.answer_text_view);
         mShowAnswer = (Button) findViewById(R.id.show_answer_button);
         mShowAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mAnswerIsTrue) {
-                    mAnswerTextView.setText(R.string.true_button);
-                } else {
-                    mAnswerTextView.setText(R.string.false_button);
-                }
-                setAnswerShownResult(true);
+                showAnswer(mAnswerIsTrue);
             }
         });
+
+        if (savedInstanceState != null) {
+            mAnswerIsTrue = savedInstanceState.getBoolean(KEY_INDEX, false);
+            showAnswer(mAnswerIsTrue);
+        }
+    }
+
+    private void showAnswer(boolean mAnswerIsTrue) {
+        if (mAnswerIsTrue) {
+            mAnswerTextView.setText(R.string.true_button);
+        } else {
+            mAnswerTextView.setText(R.string.false_button);
+        }
+        setAnswerShownResult(true);
     }
 
     private void setAnswerShownResult(boolean isAnswerShown) {
@@ -63,9 +73,39 @@ public class CheatActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle saveInstanceState) {
-        super.onSaveInstanceState(saveInstanceState);
-        Log.i(TAG, "onSaveInstanceState(Bundle) called");
-        saveInstanceState.putBoolean(KEY_INDEX, mAnswerIsTrue);
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        Log.i(TAG, "onSaveInstanceState(Bundle) called, answer is " + mAnswerIsTrue);
+        savedInstanceState.putBoolean(KEY_INDEX, mAnswerIsTrue);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart() called");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume() called");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause() called");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop() called");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy() called");
     }
 }
