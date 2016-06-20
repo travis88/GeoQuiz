@@ -124,7 +124,6 @@ public class QuizActivity extends AppCompatActivity {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
             mIsCheater = savedInstanceState.getBoolean(KEY_INDEX, false);
             if (currentIndexCheat == mCurrentIndex) { messageResId = R.string.judgment_toast; }
-            Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
         }
         updateQuestion();
     }
